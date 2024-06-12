@@ -1,4 +1,4 @@
-/* ************************************************
+/* ****************
  * Classe per testare gli algoritmi di ordinamento.
  *
  * Esempio di esecuzione::
@@ -15,11 +15,14 @@
  *
  * java -Xss20m SortingTest file quicksort
  *
- * *************************************************/
+ * *****************/
 
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.Scanner;
+
+import algorithm.sorting.*;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.lang.reflect.Method;
@@ -30,10 +33,10 @@ public class SortingTest {
 	private static int[] readarray(String filename) throws FileNotFoundException {
 		ArrayList<Integer> L = new ArrayList<Integer>();
 		Scanner input        = new Scanner(new File(filename));
-		while(input.hasNext()) 
+		while(input.hasNext())
 			L.add(input.nextInt());
-		
-		
+
+
 		return L.stream().mapToInt(Integer::intValue).toArray();
 	}
 
@@ -41,7 +44,7 @@ public class SortingTest {
 		int[] B = A.clone();
 		Arrays.sort(B);
 		return B;
-	} 
+	}
 
 	private static boolean issorted(int A[], int B[]) {
 		for(int i = 0; i < A.length-1; i++)
@@ -52,25 +55,25 @@ public class SortingTest {
 
 	public static void main(String args[]) {
 		Sorting S   = new Sorting();
-    Method  M   = null;
-    int     A[] = null;
+		Method  M   = null;
+		int     A[] = null;
 		int     B[] = null;
 
-		
+
 		if(args.length != 2) {
-			
+
 			System.err.println("Usage: SortingTest <filename> <sorting algorithm>\n");
 			System.err.println("Sorting algorithms:");
 			for (Method m : S.getClass().getMethods()) {
-  				if (m.getDeclaringClass() == S.getClass() && m.getParameterTypes()[0].equals(int[].class))
-    				System.err.println("- " + m.getName());
+				if (m.getDeclaringClass() == S.getClass() && m.getParameterTypes()[0].equals(int[].class))
+					System.err.println("- " + m.getName());
 			}
 			System.exit(0);
 		}
 
 		try {
 			M = S.getClass().getDeclaredMethod(args[1],int[].class);
-    } catch(Exception e) {
+		} catch(Exception e) {
 			System.out.println(e.toString());
 			System.exit(1);
 		}
@@ -95,5 +98,5 @@ public class SortingTest {
 		}
 
 	}
-	
+
 }
