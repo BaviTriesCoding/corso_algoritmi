@@ -191,7 +191,34 @@ public class Sorting {
 	}
 
 	public static void heapsort(int A[]){
+		heapify(A, A.length-1, 0);
+		for(int i = A.length-1; i > 0; i--){
+			int k = A[0];
+			A[0] = A[i];
+			fixHeap(A, A.length, 0);
+			A[i] = k;
 
+		}
 	}
 
+	private static void heapify(int A[], int n, int i){
+		if(i<=n){
+			heapify(A, n, 2*i);
+			heapify(A, n, 2*i + 1);
+			fixHeap(A, n, i);
+		}
+	}
+
+	private static void fixHeap(int[] A, int c, int i){
+		if(2*i <= c){
+			int max = 2*i;
+			if(2*i + 1 <= c && A[2*i] < A[2*i + 1]){
+				max = 2*i + 1;
+			}
+			if(A[i] < A[max]){
+				swap(A, max, i);
+				fixHeap(A, c, max);
+			}
+		}
+	}
 }

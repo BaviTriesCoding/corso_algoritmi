@@ -1,0 +1,13 @@
+** Compilazione **
+
+$ javac *.java datastructure/*/*.java
+
+** Generazione documentazione **
+
+$ mkdir doc
+$ cd doc
+$ javadoc -cp ".." datastructure.unionfind 
+
+*** Test Union Find  ***
+
+$ java UnionFindTest roadNet-TX.txt
