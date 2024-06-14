@@ -13,8 +13,8 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * Creates an empty Binary Search Tree
 	 */
 	public BinarySearchTree() {
-		root = null;
-		size = 0;
+		BTNode root = null;
+		int size = 0;
 	}	
 	
 	/**
@@ -26,6 +26,11 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @throws IllegalStateException if the <code>key</code> paramenter is <code>null</code>
 	 */
 	public void insert(K key, D data) throws IllegalStateException {
+		if(key==null){
+			throw new IllegalStateException();
+		}else{
+			this.insertNode(new BTNode(key, data));
+		}
 	}
 
 	/**
@@ -42,6 +47,27 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @param node node to insert into the tree
 	 */
 	protected void insertNode(BTNode node) {
+		BTNode prev = null;
+		BTNode curr = this.root;
+		while(curr != null){
+			prev = curr;
+			if(node.key.compareTo(curr.key)<0){
+				curr = curr.left;
+			}else{
+				curr = curr.right;
+			}
+		}
+		if(prev == null){
+			this.root = node;
+		}else{
+			node.parent = prev;
+			if(node.key.compareTo(prev.key)<0){
+				prev.left = node;
+			}else{
+				prev.right = node;
+			}
+		}
+		this.size = this.size + 1;
 	}
 
  /**
@@ -52,7 +78,9 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
    * @return the data mapped to <code>key</code> or <code>null</code> if <code>key</code> is not in the tree
    */
 	public D search(K key) {
-		return null;
+		BTNode tmp = searchNode(key);
+		if(tmp==null){return null;}
+		else{return tmp.data;}
 	}
 
 	/**
@@ -70,6 +98,18 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @return the searched node or <code>null</code>
 	 */ 
 	protected BTNode searchNode(K key)  {
+		if(key == null){return null;}
+		BTNode tmp = this.root;
+		while(tmp!=null){
+			if(key.compareTo(tmp.key)==0){return tmp;}
+			else{
+				if(key.compareTo(tmp.key)<0){
+					tmp = tmp.left;
+				}else{
+					tmp = tmp.right;
+				}
+			}
+		}
 		return null;
 	}
 
@@ -81,6 +121,13 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @return the data mapped to <code>key</code> or <code>null</code> if <code>key</code> is not in the tree
 	 */
 	public D delete(K key) {
+		if(key == null){return null;}
+		BTNode tmp = this.deleteNode(key);
+		if(tmp!=null){
+			return tmp.data;
+		}else{
+			return null;
+		}
 	} 
 
 	/**
@@ -100,6 +147,18 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @return a node with key value <code>key</code> or null 
 	 */
 	protected BTNode deleteNode(K key) {
+		if(key == null){return null;}
+		BTNode v = searchNode(key);
+		if(v != null){
+			if(v.left != null && v.right != null){
+				BTNode u = v.predecessor();
+				v.swap(u);
+				v = u;
+			}
+			v.disconnect();
+			this.size = this.size - 1;
+		}
+		return v;
 	}
 
 	/**
@@ -107,7 +166,7 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 *  @return number of nodes in the Binary Search Tree
 	 */
 	public int size() {
-		return 0;
+		return this.size;
 	}
 
 	/**
@@ -115,7 +174,7 @@ public class BinarySearchTree<K extends Comparable<K>,D> extends BinaryTree<K,D>
 	 * @return <code>true</code> if the Binary Search Tree is empty
 	 */
 	public boolean isEmpty() {
-		return true;
+		return this.size==0;
 	}
 
 }
