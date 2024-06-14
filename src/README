@@ -1,13 +1,13 @@
 ** Compilazione **
 
-$ javac *.java datastructure/*/*.java
+$ javac *.java datastructure/*/*.java algorithm/*/*/*.java
 
 ** Generazione documentazione **
 
 $ mkdir doc
 $ cd doc
-$ javadoc -cp ".." datastructure.unionfind 
+$ javadoc -cp ".." algorithm.graph.SSSP 
 
-*** Test Union Find  ***
+*** Test Shortest Path  ***
 
-$ java UnionFindTest roadNet-TX.txt
+java ShortestPathTest grafo1.txt

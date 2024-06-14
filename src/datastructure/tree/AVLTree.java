@@ -136,7 +136,7 @@ public class AVLTree<K extends Comparable<K>,D> extends BinarySearchTree<K,D> im
 			this.right = v.left;
 			v.left     = this;
 			if(this.right != null)
-        this.right.parent = this;
+				this.right.parent = this;
 			v.parent = this.parent;
 			if(this.parent == null)
 				root = v;
