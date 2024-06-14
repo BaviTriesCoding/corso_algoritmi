@@ -48,7 +48,7 @@ public class DHeap<K extends Comparable<K>,D>
 	}
 
 	public D findMin() {
-
+		return this.nodes.get(0).data;
 	}
 
 	public DHeapNode<K,D> insert(K key, D data) {

@@ -190,35 +190,40 @@ public class Sorting {
 		}
 	}
 
-	public static void heapsort(int A[]){
-		heapify(A, A.length-1, 0);
-		for(int i = A.length-1; i > 0; i--){
-			int k = A[0];
-			A[0] = A[i];
-			fixHeap(A, A.length, 0);
-			A[i] = k;
-
+	public static void heapsort(int[] A)
+	{
+		for (int i = A.length / 2 - 1; i >= 0; i--)
+			heapify(A, A.length, i);
+		for (int i = A.length - 1; i > 0; i--) {
+			swap(A, i, 0);
+			heapify(A, i, 0);
 		}
 	}
 
-	private static void heapify(int A[], int n, int i){
-		if(i<=n){
-			heapify(A, n, 2*i);
-			heapify(A, n, 2*i + 1);
-			fixHeap(A, n, i);
-		}
-	}
+	// To heapify a subtree rooted with node i which is
+	// an index in A[]. n is size of heap
+	private static void heapify(int[] A, int N, int i)
+	{
+		int largest = i; // Initialize largest as root
+		int l = 2 * i + 1; // left = 2*i + 1
+		int r = 2 * i + 2; // right = 2*i + 2
 
-	private static void fixHeap(int[] A, int c, int i){
-		if(2*i <= c){
-			int max = 2*i;
-			if(2*i + 1 <= c && A[2*i] < A[2*i + 1]){
-				max = 2*i + 1;
-			}
-			if(A[i] < A[max]){
-				swap(A, max, i);
-				fixHeap(A, c, max);
-			}
+		// If left child is larger than root
+		if (l < N && A[l] > A[largest])
+			largest = l;
+
+		// If right child is larger than largest so far
+		if (r < N && A[r] > A[largest])
+			largest = r;
+
+		// If largest is not root
+		if (largest != i) {
+			int swap = A[i];
+			A[i] = A[largest];
+			A[largest] = swap;
+
+			// Recursively heapify the affected sub-tree
+			heapify(A, N, largest);
 		}
 	}
 }
